@@ -15,6 +15,8 @@ per-file diff commands.
 
 ### Added
 
+- **Tracker integrity audit tool: `python3 tools/audit_tracker.py`** (`tools/audit_tracker.py`, `tests/test_audit_tracker.py`, `tests/test_tools_utf8_output.py`, `tools/security_guards.py`, `.claude/settings.json`) - audits `job_search_tracker.csv` against the canonical 14-column structure and rules documented across `/outcome`, `/apply`, and tests: canonical status vocabulary (`drafted`, `applied`, `interview`, `offer`, `hired`, `rejected`, `no_response`, `offer_declined`, `withdrawn`), legacy space-spelling modernization warnings, rejection of archive-only statuses (`in_progress`, `interview_only`), notes field CSV safety (guards against unescaped commas, quotes, and newlines that cause column drift), YYYY-MM-DD date and deadline verification, 0-100 integer fit ratings, duplicate application detection, and optional document file verification (`--check-files`). Exits 0 cleanly when the default tracker is absent so fresh clones pass without special cases.
+
 - **CI runs the Python suite on Windows** (`.github/workflows/ci.yml` `python-tests-windows`) - every
   job ran on Ubuntu, so a Windows-only failure reached master with all checks green: #480's test
   (an atomic rename that Windows file locking refuses) and #486's (a tool printing non-ASCII JSON

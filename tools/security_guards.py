@@ -77,6 +77,8 @@ ALLOWED_PERMISSIONS = {
     "Bash(python3 tools/verify_pdf.py:*)",
     "Bash(python tools/verify_layout.py:*)",
     "Bash(python3 tools/verify_layout.py:*)",
+    "Bash(python tools/audit_tracker.py:*)",
+    "Bash(python3 tools/audit_tracker.py:*)",
     "Bash(pdftotext:*)",
     # The browser-header retry in 09-web-research.md. fetch_page.py is GET-only
     # with a fixed argv and refuses to write inside the repo, which is why the

@@ -229,6 +229,24 @@ class ToolsWriteUtf8(unittest.TestCase):
         finally:
             server.shutdown()
             server.server_close()
+    def test_audit_tracker_reports_non_latin_entries(self):
+        import csv
+
+        tracker = self.tmp / "test_tracker.csv"
+        with open(tracker, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow([
+                "date", "company", "sector", "role", "role_type", "channel",
+                "status", "contact_person", "fit_rating", "notes", "cv_file",
+                "cover_letter_file", "source", "deadline",
+            ])
+            w.writerow([
+                "2026-10-19", CYRILLIC, "Tech", "Инженер", "Full", "Portal",
+                "applied", "", "90", "Clean", "", "", "", "",
+            ])
+        proc = run_legacy_stdout([TOOLS / "audit_tracker.py", tracker])
+        self.assertNotIn(b"UnicodeEncodeError", proc.stderr)
+        self.assertIn("1 rows, clean", proc.stdout.decode("utf-8"))
 
 
 if __name__ == "__main__":
